@@ -10,6 +10,7 @@
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "Texture.h"
+#include "Camera.h"
 
 const unsigned int width = 800;
 const unsigned int height = 800;
@@ -80,19 +81,14 @@ int main()
 	VBO.UnBind();
 	IBO.UnBind();
 
-	// Gets ID of uniform called "scale"
-	GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
-
 	// Texture
 	Texture tinyDevil("res/textures/brick.png", GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE);
 	tinyDevil.TexUnit(shaderProgram, "tex0", 0);
 
-	// timer variables
-	float rotation = 0.0f;
-	double prevTime = glfwGetTime();
-
 	// enables depth buffer
 	glEnable(GL_DEPTH_TEST);
+
+	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -101,33 +97,13 @@ int main()
 
 		shaderProgram.Activate();
 
+		camera.Inputs(window);
+		camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
+
 		// initialising mvp matrices as identity matrices
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 proj = glm::mat4(1.0f);
-
-		//Simple timer
-		double crntTime = glfwGetTime();
-		if (crntTime - prevTime >= 1 / 60)
-		{
-			rotation += 0.5f;
-			prevTime = crntTime;
-		}
-
-		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-		proj = glm::perspective(glm::radians(45.0f), float(width / height), 0.1f, 100.0f);
-
-		int modelLocation = glGetUniformLocation(shaderProgram.ID, "model");
-		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
-
-		int viewLocation = glGetUniformLocation(shaderProgram.ID, "view");
-		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
-
-		int projLocation = glGetUniformLocation(shaderProgram.ID, "proj");
-		glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(proj));
-
-		glUniform1f(uniID, 0.5f);
 
 		tinyDevil.Bind();
 
