@@ -9,7 +9,7 @@ public:
 	GLuint ID;
 	VertexArray();
 
-	void LinkAttrib(VertexBuffer VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
+	void LinkAttrib(VertexBuffer& VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
 	void Bind();
 	void UnBind();
 	void Delete();

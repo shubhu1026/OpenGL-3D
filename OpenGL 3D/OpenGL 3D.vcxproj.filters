@@ -68,5 +68,8 @@
     <Image Include="res\textures\devil.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\textures\brick.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
