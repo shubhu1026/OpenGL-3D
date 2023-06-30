@@ -176,6 +176,7 @@ int main()
 		camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
 		shaderProgram.Activate();
+		glUniform3f(glGetUniformLocation(shaderProgram.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
 		camera.Matrix(shaderProgram, "camMatrix");
 
 		// initialising mvp matrices as identity matrices
