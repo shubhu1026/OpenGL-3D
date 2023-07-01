@@ -79,5 +79,11 @@
     <Image Include="res\textures\brick.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\textures\planks.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\planksSpec.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
