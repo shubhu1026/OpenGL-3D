@@ -2,13 +2,13 @@
 
 out vec4 FragColor;
 
+in vec3 currPosition;
+in vec3 normal;
 in vec3 color;
 in vec2 texCoord;
-in vec3 normal;
-in vec3 currPosition;
 
-uniform sampler2D tex0;
-uniform sampler2D tex1;
+uniform sampler2D diffuse0;
+uniform sampler2D specular0;
 
 uniform vec4 lightColor;
 uniform vec3 lightPos;
@@ -38,7 +38,7 @@ vec4 PointLight()
 	float specAmount = pow(max(dot(viewDirection, reflectionDir), 0.0f), 16);
 	float specular = specularLight * specAmount;
 
-	return (texture(tex0,texCoord) * (diffuse * intensity + ambient) + texture(tex1, texCoord).r * specular * intensity) * lightColor;
+	return (texture(diffuse0,texCoord) * (diffuse * intensity + ambient) + texture(specular0, texCoord).r * specular * intensity) * lightColor;
 }
 
 vec4 DirectionalLight()
@@ -58,7 +58,7 @@ vec4 DirectionalLight()
 	float specAmount = pow(max(dot(viewDirection, reflectionDir), 0.0f), 16);
 	float specular = specularLight * specAmount;
 
-	return (texture(tex0,texCoord) * (diffuse + ambient) + texture(tex1, texCoord).r * specular) * lightColor;
+	return (texture(diffuse0,texCoord) * (diffuse + ambient) + texture(specular0, texCoord).r * specular) * lightColor;
 }
 
 vec4 SpotLight()
@@ -84,7 +84,7 @@ vec4 SpotLight()
 	float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
 	float intensity = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
-	return (texture(tex0,texCoord) * (diffuse * intensity + ambient) + texture(tex1, texCoord).r * specular * intensity) * lightColor;
+	return (texture(diffuse0,texCoord) * (diffuse * intensity + ambient) + texture(specular0, texCoord).r * specular * intensity) * lightColor;
 }
 
 void main()
