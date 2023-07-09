@@ -45,12 +45,19 @@
     <ClCompile Include="src\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\default.vert" />
     <None Include="res\shaders\default.frag" />
     <None Include="res\shaders\light.frag" />
     <None Include="res\shaders\light.vert" />
+    <None Include="res\models\bunny\scene.bin">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\models\bunny\scene.gltf" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h">
@@ -77,6 +84,9 @@
     <ClInclude Include="src\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\devil.png">
@@ -89,6 +99,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="res\textures\planksSpec.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\models\bunny\metallicRoughness.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\models\bunny\baseColor.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

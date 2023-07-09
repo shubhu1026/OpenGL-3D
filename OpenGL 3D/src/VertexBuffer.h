@@ -1,9 +1,10 @@
 #pragma once
 
-#include <vector>
-#include <glad/glad.h>
-#include <glm/glm.hpp>
+#include<glm/glm.hpp>
+#include<glad/glad.h>
+#include<vector>
 
+// Structure to standardize the vertices used in the meshes
 struct Vertex
 {
 	glm::vec3 position;
@@ -15,10 +16,15 @@ struct Vertex
 class VertexBuffer
 {
 public:
+	// Reference ID of the Vertex Buffer Object
 	GLuint ID;
+	// Constructor that generates a Vertex Buffer Object and links it to vertices
 	VertexBuffer(std::vector<Vertex>& vertices);
 
+	// Binds the VBO
 	void Bind();
-	void UnBind();
+	// Unbinds the VBO
+	void Unbind();
+	// Deletes the VBO
 	void Delete();
 };

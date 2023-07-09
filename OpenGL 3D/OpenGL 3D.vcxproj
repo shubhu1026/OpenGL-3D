@@ -152,6 +152,7 @@
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\stb.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -159,6 +160,8 @@
     <ClCompile Include="src\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\models\bunny\scene.bin" />
+    <None Include="res\models\bunny\scene.gltf" />
     <None Include="res\shaders\default.frag" />
     <None Include="res\shaders\default.vert" />
     <None Include="res\shaders\light.frag" />
@@ -167,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Mesh.h" />
+    <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Shader.h" />
@@ -175,6 +179,8 @@
     <ClInclude Include="src\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\models\bunny\baseColor.png" />
+    <Image Include="res\models\bunny\metallicRoughness.png" />
     <Image Include="res\textures\brick.png" />
     <Image Include="res\textures\devil.png" />
     <Image Include="res\textures\planks.png" />
