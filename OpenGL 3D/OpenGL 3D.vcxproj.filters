@@ -62,6 +62,8 @@
     <None Include="res\shaders\windows.frag" />
     <None Include="res\shaders\framebuffer.vert" />
     <None Include="res\shaders\framebuffer.frag" />
+    <None Include="res\shaders\skybox.vert" />
+    <None Include="res\shaders\skybox.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h">
