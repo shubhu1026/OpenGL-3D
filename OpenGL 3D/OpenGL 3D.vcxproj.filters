@@ -58,6 +58,8 @@
     <None Include="res\models\bunny\scene.gltf" />
     <None Include="res\shaders\outlining.vert" />
     <None Include="res\shaders\outlining.frag" />
+    <None Include="res\shaders\grass.frag" />
+    <None Include="res\shaders\windows.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h">

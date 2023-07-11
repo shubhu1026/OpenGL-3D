@@ -3,6 +3,22 @@
 const unsigned int width = 800;
 const unsigned int height = 800;
 
+// Takes care of the information needed to draw the windows
+const unsigned int numWindows = 100;
+glm::vec3 positionsWin[numWindows];
+float rotationsWin[numWindows];
+
+// Takes care of drawing the windows in the right order
+unsigned int orderDraw[numWindows];
+float distanceCamera[numWindows];
+
+// Compare function
+int compare(const void* a, const void* b)
+{
+	double diff = distanceCamera[*(int*)b] - distanceCamera[*(int*)a];
+	return  (0 < diff) - (diff < 0);
+}
+
 int main()
 {
 	// Initialize GLFW
@@ -36,8 +52,8 @@ int main()
 
 	// Generates Shader object using shaders default.vert and default.frag
 	Shader shaderProgram("res/shaders/default.vert", "res/shaders/default.frag");
-
-	Shader outliningProgram("res/shaders/outlining.vert", "res/shaders/outlining.frag");
+	Shader grassProgram("res/shaders/default.vert", "res/shaders/grass.frag");
+	Shader winProgram("res/shaders/default.vert", "res/shaders/windows.frag");
 
 	// Take care of all the light related things
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -49,6 +65,9 @@ int main()
 	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
+	grassProgram.Activate();
+	glUniform4f(glGetUniformLocation(grassProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform3f(glGetUniformLocation(grassProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
 	// Enables the Depth Buffer
 	glEnable(GL_DEPTH_TEST);
@@ -62,10 +81,14 @@ int main()
 	// use counter clockwise standard
 	glFrontFace(GL_CCW);
 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	// Creates camera object
 	Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
-	Model model("res/models/statue/scene.gltf");
+	Model grass("res/models/grass/scene.gltf");
+	Model ground("res/models/ground2/scene.gltf");
+	Model windows("res/models/windows/scene.gltf");
 
 	// Fps Counter variables
 	double prevTime = 0.0;
@@ -73,7 +96,19 @@ int main()
 	double timeDiff;
 	unsigned int counter = 0;
 
-	glfwSwapInterval(0);
+	//glfwSwapInterval(0);
+
+	for (unsigned int i = 0; i < numWindows; i++)
+	{
+		positionsWin[i] = glm::vec3
+		(
+			-15.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (15.0f - (-15.0f)))),
+			1.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (4.0f - 1.0f))),
+			-15.0f + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (15.0f - (-15.0f))))
+		);
+		rotationsWin[i] = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1.0f));
+		orderDraw[i] = i;
+	}
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
@@ -100,10 +135,30 @@ int main()
 
 		// Handles camera inputs
 		// Updates and exports the camera matrix to the Vertex Shader
-		camera.UpdateMatrix(45.0f, 0.1f, 500.0f);
+		camera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
-		// Draw a model
-		model.Draw(shaderProgram, camera);
+		// Draw the normal model
+		ground.Draw(shaderProgram, camera);
+
+		// Disable cull face so that grass and windows have both faces
+		glDisable(GL_CULL_FACE);
+		grass.Draw(grassProgram, camera);
+		// Enable blending for windows
+		glEnable(GL_BLEND);
+		// Get distance from each window to the camera
+		for (unsigned int i = 0; i < numWindows; i++)
+		{
+			distanceCamera[i] = glm::length(camera.Position - positionsWin[i]);
+		}
+		// Sort windows by distance from camera
+		qsort(orderDraw, numWindows, sizeof(unsigned int), compare);
+		// Draw windows
+		for (unsigned int i = 0; i < numWindows; i++)
+		{
+			windows.Draw(winProgram, camera, positionsWin[orderDraw[i]], glm::quat(1.0f, 0.0f, rotationsWin[orderDraw[i]], 0.0f));
+		}
+		glDisable(GL_BLEND);
+		glEnable(GL_CULL_FACE);
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
@@ -115,6 +170,7 @@ int main()
 
 	// Delete all the objects we've created
 	shaderProgram.Delete();
+	grassProgram.Delete();
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
 	// Terminate GLFW before ending the program
