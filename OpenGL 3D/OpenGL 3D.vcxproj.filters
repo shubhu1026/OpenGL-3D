@@ -60,6 +60,8 @@
     <None Include="res\shaders\outlining.frag" />
     <None Include="res\shaders\grass.frag" />
     <None Include="res\shaders\windows.frag" />
+    <None Include="res\shaders\framebuffer.vert" />
+    <None Include="res\shaders\framebuffer.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h">

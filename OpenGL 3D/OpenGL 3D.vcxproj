@@ -164,6 +164,8 @@
     <None Include="res\models\bunny\scene.gltf" />
     <None Include="res\shaders\default.frag" />
     <None Include="res\shaders\default.vert" />
+    <None Include="res\shaders\framebuffer.frag" />
+    <None Include="res\shaders\framebuffer.vert" />
     <None Include="res\shaders\grass.frag" />
     <None Include="res\shaders\outlining.frag" />
     <None Include="res\shaders\outlining.vert" />
